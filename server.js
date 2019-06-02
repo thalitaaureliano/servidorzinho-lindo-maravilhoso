@@ -1,23 +1,24 @@
-const http = require('http')
+const express = require('express')
+const cors = require('cors')
+const bodyParser = require('body-parser')
+const controller = require('./ComidasController')
 
-const servidor = http
-  .createServer(function (request, response) {
-    if (request.url === '/') {
-      response.end('Hello wonderful world!')
-    } else if (request.url === '/comidas') {
-      if (request.method === 'GET') {
-        response.writeHead(200, {
-          "Content-Type": "text/html;charset=utf-8"
-        })
-        response.end("<h1>Respostão diferentona</h1>")
-      } else if (request.method === 'POST') {
-        response.writeHead(201, {
-          "Content-Type": "text/html;charset=utf-8"
-        })
-        response.end("<h1>Respostão diferentona do post</h1>")
-      }
-    }
-  })
+const servidor = express()
+servidor.use(cors())
+servidor.use(bodyParser.json())
+
+servidor.get("/comidas", (request, response) => {
+  response.send(controller.getAll())
+})
+
+servidor.post('/comidas', (request, response) => {
+  controller.add(request.body)
+})
+
+servidor.delete('/comidas/:id', (request, response) => {
+  controller.remove(request.params.id)
+  response.sendStatus(204)
+})
 
 servidor.listen(3000)
 console.log("servidorzinho rodando na porta 3000")
