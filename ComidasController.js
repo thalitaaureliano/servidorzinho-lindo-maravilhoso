@@ -1,18 +1,17 @@
-const batatas = require('./ComidasRepository')
+const { comidas } = require('./ComidasRepository')
 
 const getAll = () => {
-  return batatas.pratos
+  return comidas.pratosFavoritos
 }
 
 const add = (comida) => {
   comida.id = Math.random().toString(36).substr(-8)
-  getAll().pratosFavoritos.push(comida)
+  getAll().push(comida)
+  return comida
 }
 
 const remove = (id) => {
-  let comidasRestantes = getAll()
-
-  getAll().pratosFavoritos = comidasRestantes.pratosFavoritos.filter((comida) => {
+  comidas.pratosFavoritos = getAll().filter((comida) => {
     return comida.id !== id
   })
 }
