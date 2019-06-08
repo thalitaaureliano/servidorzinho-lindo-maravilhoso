@@ -18,8 +18,13 @@ servidor.post('/comidas', (request, response) => {
 
 servidor.patch('/comidas/:id', (request, response) => {
   const id = request.params.id
-  controller.update(id, request.body)
-  response.sendStatus(204)
+  const sucesso = controller.update(id, request.body)
+  
+  if (sucesso){
+    response.sendStatus(204)
+  } else {
+    response.sendStatus(404)
+  }
 })
 
 servidor.delete('/comidas/:id', (request, response) => {
