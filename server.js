@@ -11,6 +11,11 @@ servidor.get('/comidas', (request, response) => {
   response.send(controller.getAll())
 })
 
+servidor.get('/comidas/:id', (request, response) => {
+  const id = request.params.id
+  response.send(controller.getById(id))
+})
+
 servidor.post('/comidas', (request, response) => {
   const novaComida = controller.add(request.body)
   response.status(200).send(novaComida)
