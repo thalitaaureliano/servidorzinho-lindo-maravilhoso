@@ -12,9 +12,12 @@ servidor.get('/comidas', async (request, response) => {
     .then(comidas => response.send(comidas))
 })
 
-servidor.get('/comidas/:id', (request, response) => {
+servidor.get('/comidas/:id', async (request, response) => {
+  // const id = request.params.id
+  // response.send(controller.getById(id))
   const id = request.params.id
-  response.send(controller.getById(id))
+  controller.getById(id)
+    .then(comida => response.send(comida))
 })
 
 servidor.post('/comidas', (request, response) => {
@@ -24,17 +27,16 @@ servidor.post('/comidas', (request, response) => {
 servidor.patch('/comidas/:id', (request, response) => {
   const id = request.params.id
   const sucesso = controller.update(id, request.body)
-  
-  if (sucesso){
+  if(sucesso){
     response.sendStatus(204)
   } else {
     response.sendStatus(404)
   }
 })
 
-servidor.delete('/comidas/:id', (request, response) => {
+servidor.delete('/comidas/:id', async (request, response) => {
   controller.remove(request.params.id)
-  response.sendStatus(204)
+    .then(comida => response.sendStatus(204))
 })
 
 servidor.listen(3000)
