@@ -24,14 +24,10 @@ servidor.post('/comidas', (request, response) => {
   response.status(200).send(controller.add(request.body))
 })
 
-servidor.patch('/comidas/:id', (request, response) => {
+servidor.patch('/comidas/:id', async (request, response) => {
   const id = request.params.id
-  const sucesso = controller.update(id, request.body)
-  if(sucesso){
-    response.sendStatus(204)
-  } else {
-    response.sendStatus(404)
-  }
+  controller.update(id, request.body)
+    .then(response.sendStatus(204))
 })
 
 servidor.delete('/comidas/:id', async (request, response) => {
